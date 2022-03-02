@@ -83,4 +83,4 @@ jobs:
       - name: Check
         if: github.event_name != 'pull_request'
         run: |
-          kubectl rollout status deployment/sensiboard-deployment -n rules-bot
+          kubectl rollout status deployment/sensiboard-deployment -n sensiboard
