@@ -1,4 +1,6 @@
 <script>
+	import { browser } from '$app/env';
+
 	const sounds = [
 		{ name: 'Arthur', file: '2. Arthur.mp3', volume: 1 },
 		{ name: 'Emotional damage', file: '3. Emotional Damage.mp3' },
@@ -11,6 +13,17 @@
 		{ name: 'Whooa', file: '10. Whooa.mp3', volume: 1 }
 	];
 	let player;
+
+	if (browser) {
+		document.onkeypress = function (event) {
+			const char = typeof event !== 'undefined' ? event.keyCode : event.which;
+
+			if (!isNaN(char)) {
+				console.log(char, +char + 11);
+				play(sounds[(+char + 11) % 10]);
+			}
+		};
+	}
 
 	function play(sound) {
 		console.log(sound);
@@ -31,7 +44,7 @@
 			height: 100%;
 		}
 		body {
-			background-color: #26547c;
+			background-color: #191919;
 		}
 	</style>
 </svelte:head>
@@ -47,6 +60,7 @@
 
 <style>
 	.page {
+		color: #ecdbba;
 		max-width: 1280px;
 		margin: auto;
 
@@ -57,15 +71,18 @@
 		flex-wrap: wrap;
 	}
 	.sound-item {
-		border-radius: 1rem;
+		box-sizing: border-box;
+		font-weight: bold;
+		font-size: 1.5rem;
+		border-radius: 5px;
 		margin: 1rem;
 		padding: 2rem;
 		height: 10rem;
 		width: 10rem;
-		background-color: #55d6be;
+		background-color: #2d4263;
 		text-align: center;
 	}
 	.sound-item:hover {
-		background-color: #7cea9c;
+		background-color: #c84b31;
 	}
 </style>
