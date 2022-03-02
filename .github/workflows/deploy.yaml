@@ -68,10 +68,11 @@ jobs:
         if: github.event_name != 'pull_request'
         uses: dominicwatson/github-action-envsubst@v1
         with:
-          files: kube/app.yaml kube/db.yaml
-          patterns: $IMAGE $DATABASE_URL $DISCORD_TOKEN $DISCORD_PREFIX $POSTGRES_PASSWORD $POSTGRES_REPLICATION_PASSWORD
+          files: kube/app.yaml
+          patterns: $IMAGE $HOSTNAME
         env:
           IMAGE: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+          HOSTNAME: ${{ secrets.HOSTNAME }}
 
       - name: Deploy
         if: github.event_name != 'pull_request'
