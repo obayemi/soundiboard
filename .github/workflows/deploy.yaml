@@ -68,7 +68,7 @@ jobs:
         if: github.event_name != 'pull_request'
         uses: dominicwatson/github-action-envsubst@v1
         with:
-          files: kube/bot.yaml kube/db.yaml
+          files: kube/app.yaml kube/db.yaml
           patterns: $IMAGE $DATABASE_URL $DISCORD_TOKEN $DISCORD_PREFIX $POSTGRES_PASSWORD $POSTGRES_REPLICATION_PASSWORD
         env:
           IMAGE: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
@@ -77,7 +77,7 @@ jobs:
         if: github.event_name != 'pull_request'
         run: |
           kubectl apply -f kube/namespace.yaml
-          kubectl apply -f kube/api.yaml
+          kubectl apply -f kube/app.yaml
 
       - name: Check
         if: github.event_name != 'pull_request'
