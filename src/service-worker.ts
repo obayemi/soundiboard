@@ -13,6 +13,7 @@ const to_cache = build.concat(files);
 const staticAssets = new Set(to_cache);
 
 worker.addEventListener('install', (event) => {
+	console.log('install', event);
 	event.waitUntil(
 		caches
 			.open(FILES)
@@ -24,6 +25,7 @@ worker.addEventListener('install', (event) => {
 });
 
 worker.addEventListener('activate', (event) => {
+	console.log('activate', event);
 	event.waitUntil(
 		caches.keys().then(async (keys) => {
 			// delete old caches
@@ -41,6 +43,7 @@ worker.addEventListener('activate', (event) => {
  * Fall back to the cache if the user is offline.
  */
 async function fetchAndCache(request: Request) {
+	console.log('fetchAndCache', request);
 	const cache = await caches.open(`offline${timestamp}`);
 
 	try {
@@ -56,6 +59,14 @@ async function fetchAndCache(request: Request) {
 }
 
 worker.addEventListener('fetch', (event) => {
+	console.log(
+		'addEventListener aaaaaaaaaaaaa',
+		event,
+		event.request.method,
+		event.request.headers.get('range'),
+		event.request.url,
+		event.request.url.protocol
+	);
 	if (event.request.method !== 'GET' || event.request.headers.has('range')) return;
 
 	const url = new URL(event.request.url);
@@ -65,9 +76,11 @@ worker.addEventListener('fetch', (event) => {
 	const isDevServerRequest =
 		url.hostname === self.location.hostname && url.port !== self.location.port;
 	const isStaticAsset = url.host === self.location.host && staticAssets.has(url.pathname);
+	console.log('ishttp', isHttp, 'isStaticAsset', isStaticAsset);
 	const skipBecauseUncached = event.request.cache === 'only-if-cached' && !isStaticAsset;
 
-	if (isHttp && !isDevServerRequest && !skipBecauseUncached) {
+	//if (isHttp && !isDevServerRequest && !skipBecauseUncached) {
+	if (isHttp) {
 		event.respondWith(
 			(async () => {
 				// always serve static files and bundler-generated assets from cache.
