@@ -10,7 +10,9 @@
 		{ name: 'Sound', file: '7. Sound.mp3', volume: 0.8 },
 		{ name: 'Ça a commencé ?', file: '8. Tout de suite la ca a commence.mp3', volume: 1 },
 		{ name: 'Toute de suite ?', file: '9. Tout de suite la.mp3', volume: 1 },
-		{ name: 'Whooa', file: '10. Whooa.mp3', volume: 1 }
+		{ name: 'Whooa', file: '10. Whooa.mp3', volume: 1 },
+		{ name: 'Oula', file: 'oula.mp3', volume: 1 },
+		{ name: 'Yo glue', file: 'yo glue.mp3', volume: 1 },
 	];
 	let player;
 
