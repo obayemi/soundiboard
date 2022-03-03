@@ -14,17 +14,32 @@
 		{ name: 'Oula', file: 'oula.mp3', volume: 1 },
 		{ name: 'Yo glue', file: 'yo glue.mp3', volume: 1 },
 	];
+
 	let player;
+    let cheatCode = [];
 
 	if (browser) {
 		document.onkeypress = function (event) {
 			const char = typeof event !== 'undefined' ? event.keyCode : event.which;
 
-			if (!isNaN(char)) {
-				console.log(char, +char + 11);
-				play(sounds[(+char + 11) % 10]);
-			}
-		};
+                if (!isNaN(char)) {
+                        console.log(char, +char + 11);
+                        play(sounds[(+char + 11) % 10]);
+                    }
+
+                // queue structure: keep latest 5 key presses
+                if (cheatCode.length >= 4) {
+                        [, ...cheatCode] = cheatCode
+                    }
+
+                cheatCode = [...cheatCode, String.fromCharCode(char)]
+
+                        console.log(cheatCode)
+                // check cheat
+                if (cheatCode.toString() === 'p,p,s,p') {
+                        play({file:"ppsp.mp3"})
+                    }
+            };
 	}
 
 	function play(sound) {
