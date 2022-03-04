@@ -1,0 +1,65 @@
+{
+  "db": "PostgreSQL",
+  "385596354efac6661f21b2ad0a8b94818690c8489eaa4d4016e5bdd56321941d": {
+    "describe": {
+      "columns": [
+        {
+          "name": "file_url",
+          "ordinal": 0,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "volume",
+          "ordinal": 1,
+          "type_info": "Int2"
+        },
+        {
+          "name": "name",
+          "ordinal": 2,
+          "type_info": "Varchar"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        false
+      ],
+      "parameters": {
+        "Left": []
+      }
+    },
+    "query": "SELECT file_url, volume, name FROM sounds"
+  },
+  "cd211b2453a00c181d9d707e7a019ee7ced78e07111e24e1f798955c0feccab7": {
+    "describe": {
+      "columns": [
+        {
+          "name": "file_url",
+          "ordinal": 0,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "volume",
+          "ordinal": 1,
+          "type_info": "Int2"
+        },
+        {
+          "name": "name",
+          "ordinal": 2,
+          "type_info": "Varchar"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        false
+      ],
+      "parameters": {
+        "Left": [
+          "Text"
+        ]
+      }
+    },
+    "query": "SELECT file_url, volume, name FROM sounds WHERE name = $1"
+  }
+}

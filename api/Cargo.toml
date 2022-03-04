@@ -1,0 +1,15 @@
+[package]
+name = "soundiboard"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+rocket = { version = "0.5.0-rc.1", features = ["json"] }
+sqlx = { version = "0.5.1", features = [ "runtime-tokio-rustls", "postgres", "chrono", "macros", "migrate", "uuid", "json", "offline" ] }
+dotenv = "0.15.0"
+serde = "1"
+serde_json = "1"
+tracing = "0.1"
+tracing-subscriber = "0.3"
