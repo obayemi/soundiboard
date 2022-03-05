@@ -30,6 +30,12 @@ spec:
         image: $APP_IMAGE
         ports:
         - containerPort: 3000
+        env:
+        - name: API_URL
+          valueFrom:
+            secretKeyRef:
+              name: sensiboard-secrets
+              key: apiUrl
 ---
 apiVersion: v1
 kind: Service
