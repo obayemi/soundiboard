@@ -1,4 +1,4 @@
-name: Docker
+name: Build/Deploy
 on:
   push:
     branches: [ master ]
@@ -56,20 +56,38 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
+      - name: Build and push Docker image
+        id: build-and-push
+        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        with:
+          context: ./api/
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ env.REGISTRY }}/${{ env.API_IMAGE_NAME }}:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
       - name: Update variables
         if: github.event_name != 'pull_request'
         uses: dominicwatson/github-action-envsubst@v1
         with:
-          files: kube/app.yaml
-          patterns: $APP_IMAGE $HOSTNAME
+          files: kube/app.yaml kube/api.yaml kube/db.yaml
+          patterns: $APP_IMAGE $API_IMAGE $HOSTNAME $API_HOSTNAME $DATABASE_URL $POSTGRES_PASSWORD $POSTGRES_REPLICATION_PASSWORD
         env:
           APP_IMAGE: ${{ env.REGISTRY }}/${{ env.APP_IMAGE_NAME }}:${{ github.sha }}
+          API_IMAGE: ${{ env.REGISTRY }}/${{ env.APP_IMAGE_NAME }}:${{ github.sha }}
           HOSTNAME: ${{ secrets.HOSTNAME }}
+          API_HOSTNAME: ${{ secrets.API_HOSTNAME }}
+          DATABASE_URL: ${{ secrests.DATABASE_URL }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_REPLICATION_PASSWORD: ${{ secrets.POSTGRES_REPLICATION_PASSWORD }}
+
 
       - name: Deploy
         if: github.event_name != 'pull_request'
         run: |
           kubectl apply -f kube/namespace.yaml
+          kubectl apply -f kube/db.yaml
+          kubectl apply -f kube/api.yaml
           kubectl apply -f kube/app.yaml
 
       - name: Check

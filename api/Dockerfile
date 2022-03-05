@@ -8,6 +8,7 @@ RUN rm src/*.rs
 RUN rm ./target/release/deps/soundiboard*
 
 ADD ./src ./src
+ADD ./migrations ./migrations
 ADD ./sqlx-data.json ./
 
 RUN cargo build --release
