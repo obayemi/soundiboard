@@ -77,7 +77,7 @@ jobs:
           API_IMAGE: ${{ env.REGISTRY }}/${{ env.APP_IMAGE_NAME }}:${{ github.sha }}
           HOSTNAME: ${{ secrets.HOSTNAME }}
           API_HOSTNAME: ${{ secrets.API_HOSTNAME }}
-          DATABASE_URL: ${{ secrests.DATABASE_URL }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
           POSTGRES_REPLICATION_PASSWORD: ${{ secrets.POSTGRES_REPLICATION_PASSWORD }}
 
