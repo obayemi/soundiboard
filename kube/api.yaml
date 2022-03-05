@@ -44,7 +44,7 @@ metadata:
   namespace: sensiboard
 spec:
   selector:
-    app: sensiboard
+    app: sensiboard-api
   ports:
     - protocol: TCP
       port: 80

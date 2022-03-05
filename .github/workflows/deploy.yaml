@@ -74,7 +74,7 @@ jobs:
           patterns: $APP_IMAGE $API_IMAGE $HOSTNAME $API_HOSTNAME $DATABASE_URL $POSTGRES_PASSWORD $POSTGRES_REPLICATION_PASSWORD
         env:
           APP_IMAGE: ${{ env.REGISTRY }}/${{ env.APP_IMAGE_NAME }}:${{ github.sha }}
-          API_IMAGE: ${{ env.REGISTRY }}/${{ env.APP_IMAGE_NAME }}:${{ github.sha }}
+          API_IMAGE: ${{ env.REGISTRY }}/${{ env.API_IMAGE_NAME }}:${{ github.sha }}
           HOSTNAME: ${{ secrets.HOSTNAME }}
           API_HOSTNAME: ${{ secrets.API_HOSTNAME }}
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
