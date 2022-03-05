@@ -1,3 +1,16 @@
+<script context="module">
+	export async function load({ session, fetch }) {
+		const sounds_url = `${session.api_base_url}/sounds/`;
+		const response = await fetch(sounds_url);
+		const sounds = await response.json();
+		return {
+			props: {
+				sounds
+			}
+		};
+	}
+</script>
+
 <script>
 	import { browser } from '$app/env';
 
