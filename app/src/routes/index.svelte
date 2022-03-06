@@ -50,24 +50,16 @@
 	}
 </script>
 
-<svelte:head>
-	<title>Sensiboard</title>
-	<style>
-		html,
-		body {
-			height: 100%;
-		}
-		body {
-			background-color: #191919;
-		}
-	</style>
-</svelte:head>
-
-<div class="page">
-	<h1>SensiBoard</h1>
-	<div class="board">
+<div class="page md:container md:mx-auto px-4 p-8">
+	<h1 class="text-4xl font-bold underline">SensiBoard</h1>
+	<div class="flex flex-wrap gap-4 mt-8">
 		{#each sounds as sound}
-			<div class="sound-item" on:click={() => play(sound)}>{sound.name}</div>
+			<div
+				class="rounded shadow-xl w-48 h-48 p-4 text-3xl font-bold text-center bg-purple-900 hover:bg-purple-700"
+				on:click={() => play(sound)}
+			>
+				{sound.name}
+			</div>
 		{/each}
 	</div>
 </div>
@@ -75,28 +67,5 @@
 <style>
 	.page {
 		color: #ecdbba;
-		max-width: 1280px;
-		margin: auto;
-
-		/*background-color: black;*/
-	}
-	.board {
-		display: flex;
-		flex-wrap: wrap;
-	}
-	.sound-item {
-		box-sizing: border-box;
-		font-weight: bold;
-		font-size: 1.5rem;
-		border-radius: 5px;
-		margin: 0.3rem;
-		padding: 2rem;
-		height: 10rem;
-		width: 10rem;
-		background-color: #2d4263;
-		text-align: center;
-	}
-	.sound-item:hover {
-		background-color: #c84b31;
 	}
 </style>
