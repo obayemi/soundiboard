@@ -1,16 +1,22 @@
 import { writable, get } from 'svelte/store';
 import { session } from '$app/stores';
+import Cookies from 'js-cookie';
 
-function createCount() {
-	console.log('create count store');
-	const { subscribe, set, update } = writable(0);
-
+export function userFromJwt(token) {
+	console.log(token);
+	const decoded = JSON.parse(atob(token.split('.')[1]));
 	return {
-		subscribe,
-		increment: () => update((n) => n + 1),
-		decrement: () => update((n) => n - 1),
-		reset: () => set(0)
+		id: decoded.id,
+		username: decoded.username
 	};
 }
 
-export const count = createCount();
+export function login(token) {
+	Cookies.set('API_JWT', token, { sameSite: 'strict', expires: 7 });
+	session.update((s) => ({ ...s, user: userFromJwt(token) }));
+}
+
+export function logout() {
+	Cookies.remove('API_JWT');
+	session.update((s) => ({ ...s, user: null }));
+}

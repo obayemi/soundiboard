@@ -1,7 +1,6 @@
 <script>
 	import { goto } from '$app/navigation';
 	import { session } from '$app/stores';
-	import { login } from '$lib/auth';
 	import Loader from '$lib/Loader.svelte';
 
 	const user = {
@@ -10,21 +9,19 @@
 	};
 	let error = false;
 	let loading = false;
+
 	async function submit(a) {
 		loading = true;
-		const response = await fetch(`${$session.api_base_url}/login`, {
+		const response = await fetch(`${$session.api_base_url}/signup`, {
 			method: 'POST',
 			body: JSON.stringify(user)
 		});
 		loading = false;
-		console.log(response, response.ok);
 		if (!response.ok) {
 			error = true;
 			return;
 		}
-		const { token } = await response.json();
-		login(token);
-		goto('/');
+		goto('login');
 	}
 </script>
 
@@ -54,7 +51,7 @@
 
 			{#if error}
 				<div class="mb-6">
-					<p class="text-red-500 text-xs italic">Invalid credentials</p>
+					<p class="text-red-500 text-xs italic">Something went wrong</p>
 				</div>
 			{/if}
 
@@ -64,17 +61,11 @@
 					type="submit"
 				>
 					{#if !loading}
-						Log in
+						Sign up
 					{:else}
 						<Loader />
 					{/if}
 				</button>
-				<a
-					class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
-					href="/password-reset"
-				>
-					Forgot Password?
-				</a>
 			</div>
 		</form>
 		<p class="text-center text-gray-500 text-xs">&copy;2020 Acme Corp. All rights reserved.</p>
