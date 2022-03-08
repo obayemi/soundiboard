@@ -30,6 +30,92 @@
     },
     "query": "SELECT file_url, volume, name FROM sounds"
   },
+  "3b355bd417b960f4cb84a0034e719378550ad91deb0b30dd2ce8bdc92e2c5967": {
+    "describe": {
+      "columns": [
+        {
+          "name": "id",
+          "ordinal": 0,
+          "type_info": "Uuid"
+        },
+        {
+          "name": "username",
+          "ordinal": 1,
+          "type_info": "Varchar"
+        }
+      ],
+      "nullable": [
+        false,
+        false
+      ],
+      "parameters": {
+        "Left": [
+          "Varchar",
+          "Varchar"
+        ]
+      }
+    },
+    "query": "INSERT INTO users (username, password) VALUES ($1, $2) RETURNING id, username"
+  },
+  "7f50d934944496558d2ba99e733c9e6e17d7299929c6717112dab18854bfa636": {
+    "describe": {
+      "columns": [
+        {
+          "name": "file_url",
+          "ordinal": 0,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "volume",
+          "ordinal": 1,
+          "type_info": "Int2"
+        },
+        {
+          "name": "name",
+          "ordinal": 2,
+          "type_info": "Varchar"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        false
+      ],
+      "parameters": {
+        "Left": [
+          "Varchar",
+          "Int2",
+          "Varchar",
+          "Text"
+        ]
+      }
+    },
+    "query": "UPDATE sounds SET file_url = $1, volume = $2, name = $3 WHERE name = $4 RETURNING file_url, volume, name"
+  },
+  "91b359fc7d5a88eb042ae459ce32d3d5b48255fea63854d93e9a74e63e550991": {
+    "describe": {
+      "columns": [
+        {
+          "name": "id",
+          "ordinal": 0,
+          "type_info": "Uuid"
+        },
+        {
+          "name": "username",
+          "ordinal": 1,
+          "type_info": "Varchar"
+        }
+      ],
+      "nullable": [
+        false,
+        false
+      ],
+      "parameters": {
+        "Left": []
+      }
+    },
+    "query": "SELECT id, username FROM users"
+  },
   "cd211b2453a00c181d9d707e7a019ee7ced78e07111e24e1f798955c0feccab7": {
     "describe": {
       "columns": [
@@ -61,5 +147,37 @@
       }
     },
     "query": "SELECT file_url, volume, name FROM sounds WHERE name = $1"
+  },
+  "ddbd341411217714bcce801073e747edac348e82f0cb5b7f59424fede70a14a7": {
+    "describe": {
+      "columns": [
+        {
+          "name": "id",
+          "ordinal": 0,
+          "type_info": "Uuid"
+        },
+        {
+          "name": "username",
+          "ordinal": 1,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "password",
+          "ordinal": 2,
+          "type_info": "Varchar"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        true
+      ],
+      "parameters": {
+        "Left": [
+          "Text"
+        ]
+      }
+    },
+    "query": "SELECT id, username, password FROM users WHERE username = $1"
   }
 }

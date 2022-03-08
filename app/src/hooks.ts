@@ -24,13 +24,16 @@ export function getSession(event) {
 /** @type {import('@sveltejs/kit').handle} */
 export async function handle({ event, resolve }) {
 	const cookie = event.request.headers.get('cookie');
-	const { API_JWT } = parseCookie(cookie);
-	if (API_JWT) {
-		event.locals.api_token = API_JWT;
-		event.locals.user = userFromJwt(API_JWT);
-	} else {
-		event.locals.api_token = null;
-		event.locals.user = null;
+
+	event.locals.api_token = null;
+	event.locals.user = null;
+
+	if (cookie) {
+		const { API_JWT } = parseCookie(cookie);
+		if (API_JWT) {
+			event.locals.api_token = API_JWT;
+			event.locals.user = userFromJwt(API_JWT);
+		}
 	}
 	//console.log(event.locals.jwt);
 	//console.log('aaa', event);
