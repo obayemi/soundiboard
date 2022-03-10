@@ -54,7 +54,7 @@
 <div class="flex flex-wrap gap-4 mt-8">
 	{#each sounds as sound}
 		<div
-			class="rounded shadow-xl w-48 h-48 p-4 text-3xl font-bold text-center bg-purple-900 hover:bg-purple-700"
+			class="rounded shadow-xl w-48 h-48 p-4 text-3xl font-bold text-center bg-purple-900 hover:bg-purple-700 select-none"
 			on:click={() => play(sound)}
 		>
 			{sound.name}

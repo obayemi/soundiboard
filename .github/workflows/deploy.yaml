@@ -71,7 +71,7 @@ jobs:
         uses: dominicwatson/github-action-envsubst@v1
         with:
           files: kube/app.yaml kube/api.yaml kube/db.yaml
-          patterns: $APP_IMAGE $API_IMAGE $HOSTNAME $API_HOSTNAME $DATABASE_URL $POSTGRES_PASSWORD $POSTGRES_REPLICATION_PASSWORD
+          patterns: $APP_IMAGE $API_IMAGE $HOSTNAME $API_HOSTNAME $DATABASE_URL $POSTGRES_PASSWORD $POSTGRES_REPLICATION_PASSWORD $JWT_SECRET $AWS_SECRET_ACCESS_KEY $AWS_ACCESS_KEY_ID $SPACE_REGION $SPACE_ENDPOINT $SPACE_BUCKET $FILE_SERVER_URL
         env:
           APP_IMAGE: ${{ env.REGISTRY }}/${{ env.APP_IMAGE_NAME }}:${{ github.sha }}
           API_IMAGE: ${{ env.REGISTRY }}/${{ env.API_IMAGE_NAME }}:${{ github.sha }}
@@ -80,6 +80,13 @@ jobs:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
           POSTGRES_REPLICATION_PASSWORD: ${{ secrets.POSTGRES_REPLICATION_PASSWORD }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID}}
+          SPACE_REGION: ${{ secrets.SPACE_REGION}}
+          SPACE_ENDPOINT: ${{ secrets.SPACE_ENDPOINT}}
+          SPACE_BUCKET: ${{ secrets.SPACE_BUCKET}}
+          FILE_SERVER_URL: ${{ secrets.FILE_SERVER_URL }}
 
 
       - name: Deploy

@@ -39,9 +39,21 @@
 	<tbody>
 		{#each sounds as sound}
 			<tr class="border border-slate-700 hover:bg-slate-500">
-				<td class="px-6 py-4 whitespace-nowrap"><a href="/config/{sound.name}">{sound.name}</a></td>
-				<td class="px-6 py-4 whitespace-nowrap">{sound.file_url}</td>
-				<td class="px-6 py-4 whitespace-nowrap">{sound.volume}</td>
+				<td class="whitespace-nowrap"
+					><a class="block px-6 py-4" href="/config/{encodeURIComponent(sound.name)}"
+						>{sound.name}</a
+					></td
+				>
+				<td class="whitespace-nowrap"
+					><a class="block px-6 py-4" href="/config/{encodeURIComponent(sound.name)}"
+						>{sound.file_url}</a
+					></td
+				>
+				<td class="whitespace-nowrap"
+					><a class="block px-6 py-4" href="/config/{encodeURIComponent(sound.name)}"
+						>{sound.volume}</a
+					></td
+				>
 			</tr>
 		{/each}
 	</tbody>

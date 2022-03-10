@@ -58,6 +58,7 @@
 			<div class="flex items-center justify-between">
 				<button
 					class="bg-slate-700 hover:bg-slate-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline inline-flex"
+					disabled={loading}
 					type="submit"
 				>
 					{#if !loading}

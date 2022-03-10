@@ -7,6 +7,14 @@ metadata:
 type: Opaque
 stringData:
   databaseUrl: $DATABASE_URL
+  jwtSecret: $JWT_SECRET
+  signupActive: $SIGNUP_ACTIVE
+  awsSecretAccessKey: $AWS_SECRET_ACCESS_KEY
+  awsAccessKeyId: $AWS_ACCESS_KEY_ID
+  spaceRegion: $SPACE_REGION
+  spaceEndpoint: $SPACE_ENDPOINT
+  spaceBucket: $SPACE_BUCKET
+  fileServerUrl: $FILE_SERVER_URL
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -36,6 +44,48 @@ spec:
             secretKeyRef:
               name: sensiboard-api-secrets
               key: databaseUrl
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: sensiboard-api-secrets
+              key: jwtSecret
+        - name: SIGNUP_ACTIVE
+          valueFrom:
+            secretKeyRef:
+              name: sensiboard-api-secrets
+              key: signupActive
+
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: sensiboard-api-secrets
+              key: awsSecretAccessKey
+        - name: AWS_ACCESS_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: sensiboard-api-secrets
+              key: awsAccessKeyId
+        - name: SPACE_REGION
+          valueFrom:
+            secretKeyRef:
+              name: sensiboard-api-secrets
+              key: spaceRegion
+        - name: SPACE_ENDPOINT
+          valueFrom:
+            secretKeyRef:
+              name: sensiboard-api-secrets
+              key: spaceEndpoint
+        - name: SPACE_BUCKET
+          valueFrom:
+            secretKeyRef:
+              name: sensiboard-api-secrets
+              key: spaceBucket
+
+        - name: FILE_SERVER_URL
+          valueFrom:
+            secretKeyRef:
+              name: sensiboard-api-secrets
+              key: fileServerUrl
 ---
 apiVersion: v1
 kind: Service
