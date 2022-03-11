@@ -1,6 +1,5 @@
 #[macro_use]
 extern crate rocket;
-use futures::stream::{self, StreamExt};
 use rocket::State;
 use rocket::http::Status;
 use sqlx::postgres::PgPoolOptions;
@@ -116,9 +115,8 @@ impl FilesApi {
     }
 }
 
-
 #[put("/sounds/<name>", data = "<sound>")]
-async fn sounds_update(name: String, sound: Json<Sound>, /* _user: LoggedUser, */ pool: &State<PgPool>, files: &State<FilesApi>) -> Option<Json<Sound>> {
+async fn sounds_update(name: String, sound: Json<Sound>, _user: LoggedUser, pool: &State<PgPool>, files: &State<FilesApi>) -> Option<Json<Sound>> {
     info!(name=name.as_str(), sound=format!("{:?}", sound).as_str(), "sounds_update");
     let file_url = if sound.file_url.starts_with("data:") {
         let file_payload = &sound.file_url[23..];
@@ -135,6 +133,32 @@ async fn sounds_update(name: String, sound: Json<Sound>, /* _user: LoggedUser, *
             Sound,
             "UPDATE sounds SET file_url = $1, volume = $2, name = $3 WHERE name = $4 RETURNING file_url, volume, name",
             file_url, sound.volume, sound.name, name
+            )
+        .fetch_optional(&**pool)
+        .await
+        .unwrap()?
+        .into()
+        )
+}
+
+#[post("/sounds", data = "<sound>")]
+async fn sounds_create(sound: Json<Sound>, _user: LoggedUser, pool: &State<PgPool>, files: &State<FilesApi>) -> Option<Json<Sound>> {
+    info!(sound=format!("{:?}", sound).as_str(), "sounds_create");
+    let file_url = if sound.file_url.starts_with("data:") {
+        let file_payload = &sound.file_url[23..];
+        info!("file_payload: {}", &file_payload);
+        let new = files.save_file(file_payload).await.ok()?;
+        new
+    } else {
+        sound.file_url.clone()
+    };
+
+    Some(
+        sqlx
+        ::query_as!(
+            Sound,
+            "INSERT INTO sounds (file_url, name, volume) VALUES ($1, $2, 75) RETURNING file_url, volume, name",
+            file_url, sound.name
             )
         .fetch_optional(&**pool)
         .await
@@ -328,7 +352,6 @@ async fn main() {
     let jwt_secret = env::var("JWT_SECRET").expect("missing `JWT_SECRET` env variable");
 
     let files_api = {
-        
         let s3_creds = EnvironmentProvider::default();
         //let s3_creds = EnvironmentProvider::default().credentials().await.expect("missing spaces s3 credentials");
         let s3_region = Region::Custom {
@@ -362,6 +385,7 @@ async fn main() {
             login,
             list_users,
             sounds_option,
+            sounds_create,
             sounds_detail_option,
             ])
         .attach(CORS)

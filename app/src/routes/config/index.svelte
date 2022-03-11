@@ -21,7 +21,7 @@
 
 <table class="border-collapse border border-slate-500 min-w-full">
 	<thead>
-		<tr>
+		<tr class="sticky">
 			<th
 				class="border border-slate-600 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
 				>Name</th
@@ -58,3 +58,8 @@
 		{/each}
 	</tbody>
 </table>
+
+<a
+	href="/config/new"
+	class="absolute bottom-10 right-20 bg-slate-600 rounded-full h-16 w-16 p-4 text-3xl">+</a
+>

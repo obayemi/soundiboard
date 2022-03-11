@@ -1,29 +1,9 @@
-<script context="module">
-	export async function load({ params, session, fetch }) {
-		console.log(params.name);
-		const sound_url = `${session.api_base_url}/sounds/${encodeURIComponent(params.name)}`;
-		const response = await fetch(sound_url, {
-			headers: {
-				Authorization: `BEARER ${session.api_token}`
-			}
-		});
-		const sound = await response.json();
-		return {
-			props: {
-				sound,
-				sound_url
-			}
-		};
-	}
-</script>
-
 <script>
 	import Loader from '$lib/Loader.svelte';
 	import { session } from '$app/stores';
 	import { goto } from '$app/navigation';
 
-	export let sound;
-	export let sound_url;
+	let name = null;
 	let loading = false;
 	let newFileName = null;
 	let fileinput;
@@ -45,11 +25,12 @@
 		console.log(sound_file);
 
 		loading = true;
-		const response = await fetch(sound_url, {
-			method: 'PUT',
+		const response = await fetch(`${$session.api_base_url}/sounds`, {
+			method: 'POST',
 			body: JSON.stringify({
-				...sound,
-				file_url: sound_file || sound.file_url
+				name: name,
+				file_url: sound_file,
+				volume: 75
 			}),
 			headers: {
 				Authorization: `BEARER ${$session.api_token}`
@@ -75,10 +56,9 @@
 			<label class="block text-slate-700 text-sm font-bold mb-2" for="name"> Name </label>
 			<input
 				class="shadow appearance-none border rounded w-full py-2 px-3 text-slate-700 leading-tight focus:outline-none focus:shadow-outline"
-				id="username"
 				type="text"
 				placeholder="name"
-				bind:value={sound.name}
+				bind:value={name}
 			/>
 		</div>
 
@@ -108,8 +88,9 @@
 					accept=".mp3"
 					on:change={(e) => onFileSelected(e)}
 					bind:this={fileinput}
+					required
 				/>
-				<audio src={sound_file || sound.file_url} controls />
+				<audio src={sound_file} controls />
 			</div>
 		</div>
 
