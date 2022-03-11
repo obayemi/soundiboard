@@ -179,5 +179,38 @@
       }
     },
     "query": "SELECT id, username, password FROM users WHERE username = $1"
+  },
+  "fbbc5b7b144468ed8d7304a22acdfc0d4eb516f278f6027d6bb796519c158d19": {
+    "describe": {
+      "columns": [
+        {
+          "name": "file_url",
+          "ordinal": 0,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "volume",
+          "ordinal": 1,
+          "type_info": "Int2"
+        },
+        {
+          "name": "name",
+          "ordinal": 2,
+          "type_info": "Varchar"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        false
+      ],
+      "parameters": {
+        "Left": [
+          "Varchar",
+          "Varchar"
+        ]
+      }
+    },
+    "query": "INSERT INTO sounds (file_url, name, volume) VALUES ($1, $2, 75) RETURNING file_url, volume, name"
   }
 }
