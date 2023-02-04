@@ -40,7 +40,7 @@ spec:
         - containerPort: 8000
         envFrom:
         - secretRef:
-            name: mysecret
+            name: sensiboard-api-secrets
         env:
         - name: FOOOO
           value: "BAAAR"
