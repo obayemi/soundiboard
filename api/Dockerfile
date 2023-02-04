@@ -1,4 +1,4 @@
-FROM rust:1.58 as builder
+FROM rust:1.67 as builder
 
 RUN USER=root cargo new --bin soundiboard
 WORKDIR ./soundiboard
@@ -40,4 +40,3 @@ USER $APP_USER
 WORKDIR ${APP}
 
 CMD ["./soundiboard"]
-
